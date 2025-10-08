@@ -17,6 +17,10 @@ jobs:
         with:
           go-version-file: 'src/go.mod'
       - name: Build
-        run: cd src; go build -v
+        run: |
+        - cd src
+        - go build -v
       - name: Test
-        run: cd src; go test -v
+        run: |
+        - cd src
+        - go test -v
