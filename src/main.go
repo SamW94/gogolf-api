@@ -1,0 +1,14 @@
+package main
+
+import (
+	"log"
+	"fmt"
+)
+
+func greet(name string) string {
+	return fmt.Sprintf("Hello, %s", name)
+}
+
+func main() {
+	log.Printf("Hello, world!")
+}

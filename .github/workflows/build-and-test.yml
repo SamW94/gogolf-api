@@ -1,0 +1,26 @@
+---
+name: Go build and test
+on:
+  pull_request:
+    branches:
+      - dev
+      - main
+permissions:
+  contents: read
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+      - name: Set up Go
+        uses: actions/setup-go@v6
+        with:
+          go-version-file: 'src/go.mod'
+      - name: Build
+        run: |
+          cd src
+          go build -v
+      - name: Test
+        run: |
+          cd src
+          go test -v
