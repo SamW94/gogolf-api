@@ -18,7 +18,6 @@ jobs:
         uses: actions/setup-go@v4
         with:
           go-version-file: ./src/go.mod
-
       - name: Build
         run: |
         - cd src
