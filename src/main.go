@@ -13,7 +13,10 @@ import (
 )
 
 func main() {
-	godotenv.Load("../.env")
+	err := godotenv.Load("../.env")
+	if err != nil {
+		log.Printf("Failed to load .env file")
+	}
 	db, err := sql.Open("postgres", os.Getenv("DB_URL"))
 	if err != nil {
 		log.Fatal(err)
@@ -21,7 +24,6 @@ func main() {
 	dbQueries := database.New(db)
 
 	serverPort := os.Getenv("INTERNAL_PORT")
-	log.Printf(serverPort)
 	mux := http.NewServeMux()
 	apiCfg := apiHandlers.ApiConfig{
 		DatabaseQueries: dbQueries,
