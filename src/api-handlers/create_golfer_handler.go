@@ -7,22 +7,23 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/SamW94/gogolf-api/src/internal/auth"
-	"github.com/SamW94/gogolf-api/src/internal/database"
+	"github.com/SamW94/gogolf-api/src/auth"
+	"github.com/SamW94/gogolf-api/src/database"
 	"github.com/google/uuid"
 )
 
 type requestJSONCreateGolfer struct {
-	Password      string `json:"password"`
+	Password        string `json:"password"`
 	RequestedGolfer string `json:"email"`
+	Username        string `json:"username"`
 }
 
 type CreateGolferResponseSuccessful struct {
-	ID          uuid.UUID `json:"id"`
-	CreatedAt   time.Time `json:"created_at"`
-	UpdatedAt   time.Time `json:"updated_at"`
-	Email       string    `json:"email"`
-	Username    string    `json:"username"`
+	ID        uuid.UUID `json:"id"`
+	CreatedAt time.Time `json:"created_at"`
+	UpdatedAt time.Time `json:"updated_at"`
+	Email     string    `json:"email"`
+	Username  string    `json:"username"`
 }
 
 func (acfg *ApiConfig) CreateGolferHandler(w http.ResponseWriter, r *http.Request) {
@@ -48,8 +49,9 @@ func (acfg *ApiConfig) CreateGolferHandler(w http.ResponseWriter, r *http.Reques
 		}
 
 		createUserParams := database.CreateGolferParams{
-			EmailAddress:          requestJson.RequestedGolfer,
+			EmailAddress:   requestJson.RequestedGolfer,
 			HashedPassword: hashedPassword,
+			Username:       requestJson.Username,
 		}
 
 		dbGolfer, err := acfg.DatabaseQueries.CreateGolfer(context.Background(), createUserParams)
@@ -61,11 +63,11 @@ func (acfg *ApiConfig) CreateGolferHandler(w http.ResponseWriter, r *http.Reques
 
 		log.Printf("Successfully created golfer with ID %v, email %v, and username %v", dbGolfer.ID, dbGolfer.EmailAddress, dbGolfer.Username)
 		respBody := CreateGolferResponseSuccessful{
-			ID:          dbGolfer.ID,
-			CreatedAt:   dbGolfer.CreatedAt,
-			UpdatedAt:   dbGolfer.UpdatedAt,
-			Email:       dbGolfer.EmailAddress,
-			Username:    dbGolfer.Username,
+			ID:        dbGolfer.ID,
+			CreatedAt: dbGolfer.CreatedAt,
+			UpdatedAt: dbGolfer.UpdatedAt,
+			Email:     dbGolfer.EmailAddress,
+			Username:  dbGolfer.Username,
 		}
 
 		respondWithJSON(w, 201, respBody)

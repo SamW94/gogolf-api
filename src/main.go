@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	"github.com/SamW94/gogolf-api/src/internal/database"
 	apiHandlers "github.com/SamW94/gogolf-api/src/api-handlers"
+	"github.com/SamW94/gogolf-api/src/database"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
@@ -35,7 +35,7 @@ func main() {
 	mux.HandleFunc("POST /api/golfers", apiCfg.CreateGolferHandler)
 
 	server := &http.Server{
-		Addr: ":" + serverPort,
+		Addr:    ":" + serverPort,
 		Handler: mux,
 	}
 

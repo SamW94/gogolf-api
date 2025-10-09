@@ -15,4 +15,4 @@ services:
       - gogolf_pgdata:/var/lib/postgresql/data
 
 volumes:
-  gogolf_pgdata:   
+  gogolf_pgdata:

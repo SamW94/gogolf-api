@@ -1,4 +1,4 @@
-module github.com/SamW94/gogolf-api/src/internal/auth
+module github.com/SamW94/gogolf-api/src/auth
 
 go 1.25.2
 
