@@ -21,7 +21,10 @@ func respondWithError(w http.ResponseWriter, code int, message string) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
-	w.Write(data)
+	_, err = w.Write(data)
+	if err != nil {
+		log.Printf("Error writing data to ResponseWriter: %v", err)
+	}
 }
 
 func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
@@ -31,5 +34,8 @@ func respondWithJSON(w http.ResponseWriter, code int, payload interface{}) {
 	}
 	w.Header().Set("Content-Type", "application/json")
 	w.WriteHeader(code)
-	w.Write(data)
+	_, err = w.Write(data)
+	if err != nil {
+		log.Printf("Error writing data to ResponseWriter: %v", err)
+	}
 }
