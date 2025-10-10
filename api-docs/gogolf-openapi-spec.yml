@@ -1,0 +1,102 @@
+openapi: 3.0.0
+info:
+  version: 0.0.1
+  title: GoGolf
+  description: An API providing access to GoGolf's backend and logic for recording scores, calculating handicaps and tracking club yardages.
+  contact:
+    name: Sam Wild
+    url: https://github.com/SamW94/gogolf-api
+  license:
+    name: Apache 2.0
+    url: https://www.apache.org/licenses/LICENSE-2.0.html
+
+servers:
+  - url: http://localhost:7117/api
+
+paths:
+  /golfers:
+    post:
+      summary: Creates a new golfer
+      description: Creates a new golfer in the database with a unique ID, username and email address.
+      security: []
+      operationId: CreateGolferHandler
+      requestBody:
+        description: Golfer to create in the database.
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/NewGolfer'
+      responses:
+        '201':
+          description: Successful response to POST to /golfer path.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/CreatedGolfer'
+        '500':
+          description: Unsuccessful response to POST to /golfer path where something went wrong server-side.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '400':
+          description: Unsuccessful response to POST to /golfer path where something was wrong with the client's request.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+        '409':
+          description: Unsuccessful response to POST to /golfer where the username is already in use or the email address is associated with an account.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+
+components:
+  schemas:
+    NewGolfer:
+      type: object
+      required:
+        - username
+        - email
+        - password
+      properties:
+        username:
+          type: string
+        email:
+          type: string
+        password: 
+          type: string
+
+    CreatedGolfer:
+      type: object
+      required:
+        - id
+        - created_at
+        - updated_at
+        - email
+        - username
+      properties:
+        id:
+          type: string
+          format: uuid
+        created_at: 
+          type: string
+          format: date-time
+        updated_at:
+          type: string
+          format: date-time
+        email: 
+          type: string
+          format: email
+        username:
+          type: string
+
+    Error:
+      type: object
+      required:
+        - error
+      properties:
+        error:
+          type: string

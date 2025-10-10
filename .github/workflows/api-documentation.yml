@@ -1,0 +1,54 @@
+name: Build API Documentation and Deploy to GitHub Pages
+
+on:
+  push:
+    branches:
+      - '**'
+    paths:
+      - 'api-docs/'
+
+jobs:
+  build-spec:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # needed for gh-pages deployment
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 #v5.0.0
+
+      # 2. Set up Node.js
+      - name: Set up Node.js
+        uses: actions/setup-node@a0853c24544627f65ddf259abe73b1d18a591444 #v5.0.0
+        with:
+          node-version: '20'
+
+      # 3. Install Redocly CLI
+      - name: Install Redocly CLI
+        run: npm install -g redocly/cli@2.5.0
+
+      # 4. Validate OpenAPI spec
+      - name: Validate OpenAPI Spec
+        run: redocly lint api-docs/gogolf-openapi-spec.yml
+
+      # 5. Build output directory
+      - name: Create build directory
+        run: mkdir -p public
+
+      # 6. Copy spec
+      - name: Copy spec
+        run: mkdir -p public/spec && cp api-docs/gogolf-openapi-spec.yml public/spec/
+
+      # 7. Copy landing page
+      - name: Copy landing page
+        run: cp api-docs/index.html public/index.html
+
+      # 8. Upload static files as artifact
+      - name: Upload static files as artifact
+        uses: actions/upload-pages-artifact@7b1f4a764d45c48632c6b24a0339c27f5614fb0b #v4.0.0
+        with:
+          path: api-docs/
+
+      # 9. Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e #v4.0.5

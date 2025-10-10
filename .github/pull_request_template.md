@@ -18,7 +18,7 @@ Mark all that apply:
 ## 📋 What?
 
 **Describe what this PR does.**
-What feature, fix, or improvement does it introduce? Which microservice(s) or API endpoints are affected?
+What feature, fix, or improvement does it introduce? Which API endpoints are affected?
 
 **Example:** *Developed code for a bunker-raking automaton.*
 
