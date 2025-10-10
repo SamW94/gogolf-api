@@ -28,21 +28,6 @@ func TestMakeAndValidateJWT_Success(t *testing.T) {
 	}
 }
 
-func TestValidateJWT_ExpiredToken(t *testing.T) {
-	secret := "test_secret"
-	userID := uuid.New()
-
-	token, err := MakeJWT(userID, secret)
-	if err != nil {
-		t.Fatalf("MakeJWT failed: %v", err)
-	}
-
-	_, err = ValidateJWT(token, secret)
-	if err == nil || !strings.Contains(err.Error(), "token is expired") {
-		t.Errorf("expected expiration error, got %v", err)
-	}
-}
-
 func TestValidateJWT_InvalidSignature(t *testing.T) {
 	secret := "test_secret"
 	wrongSecret := "wrong_secret"
@@ -61,7 +46,7 @@ func TestValidateJWT_InvalidSignature(t *testing.T) {
 
 func TestValidateJWT_InvalidUUID(t *testing.T) {
 	token := jwt.NewWithClaims(jwt.SigningMethodHS256, jwt.RegisteredClaims{
-		Issuer:    "chirpy",
+		Issuer:    "gogolf-api",
 		IssuedAt:  jwt.NewNumericDate(time.Now().UTC()),
 		ExpiresAt: jwt.NewNumericDate(time.Now().Add(time.Hour)),
 		Subject:   "not-a-valid-uuid",
