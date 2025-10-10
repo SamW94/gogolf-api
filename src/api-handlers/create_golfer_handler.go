@@ -7,8 +7,8 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/SamW94/gogolf-api/src/auth"
-	"github.com/SamW94/gogolf-api/src/database"
+	"github.com/SamW94/gogolf-api/auth"
+	"github.com/SamW94/gogolf-api/database"
 	"github.com/google/uuid"
 )
 

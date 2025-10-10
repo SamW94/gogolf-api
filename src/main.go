@@ -6,8 +6,8 @@ import (
 	"net/http"
 	"os"
 
-	apiHandlers "github.com/SamW94/gogolf-api/src/api-handlers"
-	"github.com/SamW94/gogolf-api/src/database"
+	apiHandlers "github.com/SamW94/gogolf-api/api-handlers"
+	"github.com/SamW94/gogolf-api/database"
 	"github.com/joho/godotenv"
 	_ "github.com/lib/pq"
 )
