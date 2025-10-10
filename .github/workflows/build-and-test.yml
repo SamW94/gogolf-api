@@ -23,4 +23,4 @@ jobs:
       - name: Test
         run: |
           cd src
-          go test -v
+          go test -v ./...
