@@ -6,6 +6,4 @@ import (
 
 type ApiConfig struct {
 	DatabaseQueries *database.Queries
-	Platform        string
-	JWTSecret       string
 }
