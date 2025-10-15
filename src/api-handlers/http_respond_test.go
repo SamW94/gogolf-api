@@ -104,9 +104,7 @@ func TestRespondWithJSON_MarshalError(t *testing.T) {
 	}
 
 	body := rr.Body.String()
-	if len(body) == 0 {
-		t.Log("body is empty — expected since marshalling failed")
-	} else {
+	if len(body) != 0 {
 		t.Errorf("body returned despite marshalling error: %q", body)
 	}
 }

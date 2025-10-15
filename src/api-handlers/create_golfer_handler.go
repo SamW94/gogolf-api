@@ -65,9 +65,11 @@ func (acfg *ApiConfig) CreateGolferHandler(w http.ResponseWriter, r *http.Reques
 			if err.Error() == "pq: duplicate key value violates unique constraint \"golfers_email_address_key\"" {
 				log.Printf("Tried to create a new golfer but a golfer with this email address already exists: %v", err)
 				respondWithError(w, 409, "Email address is associated with an existing golfer.")
+
 			} else if err.Error() == "pq: duplicate key value violates unique constraint \"golfers_username_key\"" {
 				log.Printf("Tried to create a new golfer but a golfer with this username already exists: %v", err)
 				respondWithError(w, 409, "Username is already in use.")
+
 			} else {
 				log.Printf("Error calling database.CreateGolfer() function: %v", err)
 				respondWithError(w, 500, "Something went wrong.")

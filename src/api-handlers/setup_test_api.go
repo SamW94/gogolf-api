@@ -26,8 +26,14 @@ func setupTestAPI(t *testing.T) (ApiConfig, func()) {
 	queries := database.New(tx)
 
 	cleanup := func() {
-		tx.Rollback()
-		db.Close()
+		err := tx.Rollback()
+		if err != nil {
+			t.Fatalf("WARNING: failed to rollback queries to the test DB, there may be inconsistencies: %s", err)
+		}
+		err = db.Close()
+		if err != nil {
+			t.Fatalf("Failed to close the connection to the database: %s", err)
+		}
 	}
 
 	apiCfg := ApiConfig{
