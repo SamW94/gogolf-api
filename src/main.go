@@ -13,23 +13,19 @@ import (
 )
 
 func main() {
-	err := godotenv.Load("../.env")
-	if err != nil {
-		log.Printf("Failed to load .env file")
-	}
+	_ = godotenv.Load("../.env")
+
 	db, err := sql.Open("postgres", os.Getenv("DB_URL"))
 	if err != nil {
 		log.Fatal(err)
 	}
 	dbQueries := database.New(db)
+	apiCfg := apiHandlers.ApiConfig{
+		DatabaseQueries: dbQueries,
+	}
 
 	serverPort := os.Getenv("INTERNAL_PORT")
 	mux := http.NewServeMux()
-	apiCfg := apiHandlers.ApiConfig{
-		DatabaseQueries: dbQueries,
-		Platform:        os.Getenv("PLATFORM"),
-		JWTSecret:       os.Getenv("JWT_SECRET"),
-	}
 
 	mux.HandleFunc("POST /api/golfers", apiCfg.CreateGolferHandler)
 

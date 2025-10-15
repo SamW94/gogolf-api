@@ -13,9 +13,9 @@ import (
 )
 
 type requestJSONCreateGolfer struct {
-	Password        string `json:"password"`
-	RequestedGolfer string `json:"email"`
-	Username        string `json:"username"`
+	Password     string `json:"password"`
+	EmailAddress string `json:"email"`
+	Username     string `json:"username"`
 }
 
 type CreateGolferResponseSuccessful struct {
@@ -40,6 +40,12 @@ func (acfg *ApiConfig) CreateGolferHandler(w http.ResponseWriter, r *http.Reques
 		log.Printf("No password provided in request body.")
 		respondWithError(w, 400, "No password provided in request body.")
 		return
+	} else if requestJson.EmailAddress == "" {
+		log.Printf("No email address provided in request body.")
+		respondWithError(w, 400, "No email address provided in request body.")
+	} else if requestJson.Username == "" {
+		log.Printf("No username provided in request body.")
+		respondWithError(w, 400, "No username provided in request body.")
 	} else {
 		hashedPassword, err := auth.HashPassword(requestJson.Password)
 		if err != nil {
@@ -49,7 +55,7 @@ func (acfg *ApiConfig) CreateGolferHandler(w http.ResponseWriter, r *http.Reques
 		}
 
 		createUserParams := database.CreateGolferParams{
-			EmailAddress:   requestJson.RequestedGolfer,
+			EmailAddress:   requestJson.EmailAddress,
 			HashedPassword: hashedPassword,
 			Username:       requestJson.Username,
 		}
@@ -57,11 +63,13 @@ func (acfg *ApiConfig) CreateGolferHandler(w http.ResponseWriter, r *http.Reques
 		dbGolfer, err := acfg.DatabaseQueries.CreateGolfer(context.Background(), createUserParams)
 		if err != nil {
 			if err.Error() == "pq: duplicate key value violates unique constraint \"golfers_email_address_key\"" {
-				log.Printf("Tried to create a new golfer but golfer with this email address already exists: %v", err)
+				log.Printf("Tried to create a new golfer but a golfer with this email address already exists: %v", err)
 				respondWithError(w, 409, "Email address is associated with an existing golfer.")
+
 			} else if err.Error() == "pq: duplicate key value violates unique constraint \"golfers_username_key\"" {
 				log.Printf("Tried to create a new golfer but a golfer with this username already exists: %v", err)
 				respondWithError(w, 409, "Username is already in use.")
+
 			} else {
 				log.Printf("Error calling database.CreateGolfer() function: %v", err)
 				respondWithError(w, 500, "Something went wrong.")
