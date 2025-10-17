@@ -6,6 +6,7 @@ on:
       - '**'
       - '!dev'
       - '!main'
+      - '!r-*'
 
 env: 
   REGISTRY: ghcr.io

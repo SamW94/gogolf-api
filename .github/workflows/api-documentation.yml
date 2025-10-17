@@ -3,7 +3,6 @@ name: Build API Documentation and Deploy to GitHub Pages
 on: 
   push:
     branches:
-      - 'dev'
       - 'main'
 
 jobs:
