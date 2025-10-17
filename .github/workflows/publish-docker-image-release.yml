@@ -2,8 +2,8 @@ name: Build and push a Docker image (dev)
 
 on:
   push:
-    branches:
-      - 'dev'
+    tags:
+      - 'v*'
 
 env: 
   REGISTRY: ghcr.io
@@ -42,7 +42,7 @@ jobs:
         with:
           context: .
           push: true
-          tags: ghcr.io/samw94/gogolf-api:dev
+          tags: ${{ steps.metadata.outputs.tags }}
           labels: ${{ steps.metadata.outputs.labels }}
 
       - name: Generate artifact attestation
