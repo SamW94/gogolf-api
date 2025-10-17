@@ -14,5 +14,15 @@ services:
     volumes:
       - gogolf_pgdata:/var/lib/postgresql/data
 
+  api:
+    image: gogolf-api:f-dockerise
+    container_name: gogolf-api
+    restart: unless-stopped
+    environment:
+      INTERNAL_PORT: 8080
+      DB_URL: ${DB_URL_DOCKER}
+    ports: 
+      - "8080:8080"
+
 volumes:
   gogolf_pgdata:
