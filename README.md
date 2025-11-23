@@ -59,7 +59,19 @@ gogolf's API is written, shockingly, in Go. The database queries and schemas are
 
     `DB_URL_DOCKER="postgres://<user>:<password>@gogolf-postgres:5432/gogolf?sslmode=disable"`
 
-6. Ensure you Docker engine is running, and run `docker-compose up` or start your Postgres container and the API container. 
+6. Ensure you Docker engine is running, and run `docker-compose up` or start your Postgres container and the API container. *The API container by default uses the latest versioned image, but you can modify it to use an image you're working on, or any other version you want by modifying the `image` value:.*
+
+    ```
+    api:
+        image: <gogolf-api image>
+        container_name: gogolf-api
+        restart: unless-stopped
+        environment:
+        INTERNAL_PORT: 8080
+        DB_URL: ${DB_URL_DOCKER}
+        ports: 
+        - "8080:8080"
+    ```
 
 6. Open another terminal window. From the root of the project, change into the `sql/schema` directory and run the goose migration. 
 
