@@ -2,6 +2,7 @@ POSTGRES_USER=user
 POSTGRES_PASSWORD=password
 POSTGRES_DB=gogolf
 DB_URL="postgres://user:password@localhost:5432/gogolf?sslmode=disable"
+DB_URL_DOCKER="postgres://user:password@gogolf-postgres:5432/gogolf?sslmode=disable"
 INTERNAL_PORT="8080"
 GOOSE_DBSTRING="postgres://user:password@localhost:5432/gogolf?sslmode=disable"
 GOOSE_DRIVER="postgres"
