@@ -5,11 +5,11 @@
 		git switch dev
 		git pull
 		```
-2. Checkout the *release branch*. Use (https://semver.org/)[semantic versioning] based on the latest tag to decide what the new version should be. Name the branch `r-<major-version>-<minor-version>-<patch-version>` like this.
+2. Checkout the *release branch*. Use [semantic versioning](https://semver.org) based on the latest tag to decide what the new version should be. Name the branch `r-<major-version>-<minor-version>-<patch-version>` like this.
 
 		git checkout -b r-0-0-1
 
-3. Create or update the `CHANGELOG.md` file according to the (Keep a Changelog Style)[https://keepachangelog.com/en/1.1.0/]
+3. Create or update the `CHANGELOG.md` file according to the [Keep a Changelog Style](https://keepachangelog.com/en/1.1.0/)
 
 		git add CHANGELOG.md
 		git commit -m "chore: release v0.0.1"
