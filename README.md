@@ -33,7 +33,7 @@ gogolf's API is written, shockingly, in Go. The database queries and schemas are
 - You must have the [goose CLI tool](https://github.com/pressly/goose?tab=readme-ov-file#install) installed.
 - For the easiest experience, you should have [Docker Compose](https://docs.docker.com/compose/install/) installed.
 
-### Using `go run`
+### Using `docker compose up`
 
 1. Clone this repository.
 
@@ -55,7 +55,11 @@ gogolf's API is written, shockingly, in Go. The database queries and schemas are
 
     `postgres://user:password@localhost:5432/gogolf?sslmode=disable`
 
-5. Ensure you Docker engine is running, and run `docker-compose up` or start your Postgres container/database. 
+5. Your `.env` file should also contain something like this to ensure the API container can communicate with the database (`localhost` will not work as the DB URL if you're using docker compose): 
+
+    `DB_URL_DOCKER="postgres://<user>:<password>@gogolf-postgres:5432/gogolf?sslmode=disable"`
+
+6. Ensure you Docker engine is running, and run `docker-compose up` or start your Postgres container and the API container. 
 
 6. Open another terminal window. From the root of the project, change into the `sql/schema` directory and run the goose migration. 
 
@@ -71,17 +75,4 @@ gogolf's API is written, shockingly, in Go. The database queries and schemas are
     2025/10/17 20:43:29 goose: successfully migrated database to version: 1
     ```
 
-7. From the root of the project, change into the `src` directory. Run the code with `go run .` and you should see a message like below.
-
-    ```
-    cd src
-    go run .
-    ```
-
-    You should see a message like this if you've done everything right.
-
-    ```
-    2025/10/17 20:46:24 Serving on internal port: <the internal port from your .env file>
-    ```
-
-8. The API is serving traffic on `http://localhost:<your-port>` - test it out using Postman or curl!
+8. The API is serving traffic on `http://localhost:8080` - test it out using Postman, curl or the [gogolf-cli!](https://github.com/SamW94/gogolf-cli)
