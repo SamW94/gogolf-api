@@ -10,13 +10,11 @@ You're currently looking at the code for the *backend* - that's the API for the 
 - calculating a golfer's handicap index, and their playing handicap for any course in the database
 - any other things I can dream up as I mindlessly top balls down the driving range
 
-## 🏌️ Related Repositories (Coming Soon™)
+## 🏌️ Related Repositories (More Coming Soon™)
 
-- gogolf-cli: the code repository for the CLI tool that interacts with the API
-- gogolf-web: the code repository for the front-end
-- gogolf-qa: code for automated test suites that run against the service
-- gogolf-local: docker-compose files and scripts for running the service locally
-- gogolf-terraform: the infrastructure-as-code used to deploy the gogolf website
+- [gogolf-cli](https://github.com/SamW94/gogolf-cli): CLI tool that interacts with the API
+- [gogolf-web](https://github.com/SamW94/gogolf-web): the front-end
+
 
 ## 🛺 What's in the box? 
 
