@@ -13,7 +13,7 @@ You're currently looking at the code for the *backend* - that's the API for the 
 ## 🏌️ Related Repositories (More Coming Soon™)
 
 - [gogolf-cli](https://github.com/SamW94/gogolf-cli): CLI tool that interacts with the API
-- [gogolf-web](https://github.com/SamW94/gogolf-web): the front-end
+- [gogolf-local](https://github.com/SamW94/gogolf-local): Tools for running the gogolf API on your local machine with Docker
 
 
 ## 🛺 What's in the box? 
@@ -21,6 +21,10 @@ You're currently looking at the code for the *backend* - that's the API for the 
 gogolf's API is written, shockingly, in Go. The database queries and schemas are generated and handled by the [sqlc](https://github.com/sqlc-dev/sqlc) and the [goose database migration tool](https://github.com/pressly/goose). API documentation is generated from the `gogolf-openapi-spec.yml` file and can be viewed [here](https://samw94.github.io/gogolf-api/) - it will be updated automatically on every push to main. Other relevant documentation can be found in the docs directory of this project.
 
 ## 🚩 How do I run it?
+
+The *easiest way* to try the gogolf API out locally is to follow the instructions in the README [here](https://github.com/SamW94/gogolf-local). 
+
+Alternatively, there are some steps below for running using `go run` if you prefer.
 
 ### Pre-requisites
 
@@ -31,7 +35,7 @@ gogolf's API is written, shockingly, in Go. The database queries and schemas are
 - You must have the [goose CLI tool](https://github.com/pressly/goose?tab=readme-ov-file#install) installed.
 - For the easiest experience, you should have [Docker Compose](https://docs.docker.com/compose/install/) installed.
 
-### Using `docker compose up`
+### Using `go run`
 
 1. Clone this repository.
 
@@ -41,9 +45,9 @@ gogolf's API is written, shockingly, in Go. The database queries and schemas are
 
     `cd gogolf-api`
 
-3. Create a `.env` from the `sample-env` file.
+3. Configure and start your Postgres database, if you're running it locally. 
 
-    `cp sample-env .env`
+3. Create an `.env` file.
 
 4. Edit your `.env` file with your favourite text editor to change the values in there by default to whatever you wish. The `DB_URL` and `GOOSE_DBSTRING` variables must both be the same and be in this format:
 
@@ -53,23 +57,12 @@ gogolf's API is written, shockingly, in Go. The database queries and schemas are
 
     `postgres://user:password@localhost:5432/gogolf?sslmode=disable`
 
-5. Your `.env` file should also contain something like this to ensure the API container can communicate with the database (`localhost` will not work as the DB URL if you're using docker compose): 
+Your `.env` file **must contain**:
 
-    `DB_URL_DOCKER="postgres://<user>:<password>@gogolf-postgres:5432/gogolf?sslmode=disable"`
-
-6. Ensure you Docker engine is running, and run `docker-compose up` or start your Postgres container and the API container. *The API container by default uses the latest versioned image, but you can modify it to use an image you're working on, or any other version you want by modifying the `image` value:.*
-
-    ```
-    api:
-        image: <gogolf-api image>
-        container_name: gogolf-api
-        restart: unless-stopped
-        environment:
-        INTERNAL_PORT: 8080
-        DB_URL: ${DB_URL_DOCKER}
-        ports: 
-        - "8080:8080"
-    ```
+- DB_URL
+- GOOSE_DBSTRING
+- GOOSE_DRIVER
+- INTERNAL_PORT
 
 6. Open another terminal window. From the root of the project, change into the `sql/schema` directory and run the goose migration. 
 
@@ -78,11 +71,17 @@ gogolf's API is written, shockingly, in Go. The database queries and schemas are
     goose up -env ../../.env
     ```
 
-    You should see something like this if you've done everything right.
+7. From the root of the project, change into the `src` directory. Run the code with `go run .` and you should see a message like below.
 
     ```
-    2025/10/17 20:43:29 OK   001_golfers.sql (13.89ms)
-    2025/10/17 20:43:29 goose: successfully migrated database to version: 1
+    cd src
+    go run .
     ```
 
-8. The API is serving traffic on `http://localhost:8080` - test it out using Postman, curl or the [gogolf-cli!](https://github.com/SamW94/gogolf-cli)
+    You should see a message like this if you've done everything right.
+
+    ```
+    2025/10/17 20:46:24 Serving on internal port: <the internal port from your .env file>
+    ```
+
+8. The API is serving traffic on `http://localhost:<your-port>` - test it out using Postman or curl!
