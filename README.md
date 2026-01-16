@@ -1,6 +1,6 @@
 # gogolf-api
 
-⛳ Welcome to the code repository for gogolf's API! gogolf is a toy project I've created to demonstrate understanding of full-stack software development, DevOps and having a *crazy* high handicap. Having said that, I will hopefully get it up-and-running as a web app at some point.
+⛳ Welcome to the code repository for gogolf's API! gogolf is a toy project I've created to demonstrate understanding of full-stack software development, DevOps and having a *crazy* high handicap. Having said that, I will hopefully get it up-and-running as a useable app at some point.
 
 You're currently looking at the code for the *backend* - that's the API for the gogolf service which ~~contains~~ *will hopefully at some point contain* logic and handlers for:
 
