@@ -14,7 +14,6 @@ You're currently looking at the code for the *backend* - that's the API for the 
 
 - [gogolf-cli](https://github.com/SamW94/gogolf-cli): CLI tool that interacts with the API
 
-
 ## 🛺 What's in the box? 
 
 gogolf's API is written, shockingly, in Go. The database queries and schemas are generated and handled by the [sqlc](https://github.com/sqlc-dev/sqlc) and the [goose database migration tool](https://github.com/pressly/goose). API documentation is generated from the `gogolf-openapi-spec.yml` file and can be viewed [here](https://samw94.github.io/gogolf-api/) - it will be updated automatically on every push to main. Other relevant documentation can be found in the docs directory of this project.
